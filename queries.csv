@@ -1,0 +1,1 @@
+hawkbit_prod_05_21$SELECT COUNT(*) FROM sp_action_status WHERE (status=1 & last_modified_at < 1619590884000);
