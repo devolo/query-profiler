@@ -86,3 +86,6 @@ do
         mysql -u $mariadb_username -p$mariadb_password -e "USE $database_name; $query"
     fi
 done < revert_changes.csv
+
+# kill the spinner task
+kill $pid > /dev/null 2>&1
