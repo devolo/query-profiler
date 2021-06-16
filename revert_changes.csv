@@ -1,0 +1,1 @@
+hawkbit_prod_05_21$DROP INDEX idx_status on sp_action_status;

@@ -1,0 +1,5 @@
+$UPDATE performance_schema.setup_consumers SET ENABLED = 'YES';
+$UPDATE performance_schema.setup_instruments SET ENABLED = 'YES', TIMED = 'YES';
+$TRUNCATE TABLE performance_schema.events_statements_history_long;
+$TRUNCATE TABLE performance_schema.events_stages_history_long;
+hawkbit_prod_05_21$CREATE INDEX idx_status on sp_action_status (status);
