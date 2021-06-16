@@ -24,6 +24,16 @@ mariadb_username=root
 mariadb_password=password
 
 declare -i n_repetitions=10
+
+while IFS="$", read -r database_name query
+do
+    if [[ -z "${database_name}" ]]; then
+        mysql -u $mariadb_username -p$mariadb_password -e "$query"
+    else
+        mysql -u $mariadb_username -p$mariadb_password -e "USE $database_name; $query"
+    fi
+done < setup_database.csv
+
 no_of_lines=`cat queries.csv | wc -l`
 line_index=0
 timestamp=`date "+%Y%m%d-%H%M%S"`
@@ -68,3 +78,11 @@ do
     line_index=$(($line_index + 1))
 done < queries.csv
 
+while IFS="$", read -r database_name query
+do
+    if [[ -z "$database_name" ]]; then
+        mysql -u $mariadb_username -p$mariadb_password -e "$query"
+    else
+        mysql -u $mariadb_username -p$mariadb_password -e "USE $database_name; $query"
+    fi
+done < revert_changes.csv
