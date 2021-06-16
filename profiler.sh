@@ -1,3 +1,25 @@
+#!/bin/bash
+spin() {
+    sp='/-\|'
+    printf ' '
+    while true; do
+        printf '\b%.1s' "$sp"
+        sp=${sp#?}${sp%???}
+        sleep 0.05
+    done
+}
+
+progressbar()
+{
+    bar="##################################################"
+    barlength=${#bar}
+    n=$(($1*barlength/100))
+    printf "\r[%-${barlength}s (%d%%)] " "${bar:0:n}" "$1"
+}
+
+spin &
+pid=$!
+
 mariadb_username=root
 mariadb_password=password
 
@@ -39,6 +61,8 @@ do
             avg_event_time=`expr "scale=10;$total_event_time/$n_repetitions" | bc`
             echo -e "$timestamp\t$query\t$avg_event_time\n" >> summary.csv
         fi
+        progress=`echo "scale=2;100 / $no_of_lines * ($i / $n_repetitions + $line_index)" | bc`
+        progressbar `echo ${progress%%.*}`
         i=$(($i + 1))
     done
     line_index=$(($line_index + 1))
